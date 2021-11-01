@@ -1,0 +1,29 @@
+# Schema documented at https://render.com/docs/yaml-spec
+services:
+  - type: web # valid values: https://render.com/docs/yaml-spec#type
+    name: salty-waters-73797
+    env: docker # valid values: https://render.com/docs/yaml-spec#environment
+    dockerfilePath: Dockerfile.render
+    plan: starter # optional; defaults to starter
+    numInstances: 1
+    domains: # custom domains
+      - crc.wtf
+    envVars:
+      - key: LANG # Imported from Heroku app
+        value: en_US.UTF-8
+      - key: RACK_ENV # Imported from Heroku app
+        value: production
+      - key: RAILS_ENV # Imported from Heroku app
+        value: production
+      - key: RAILS_LOG_TO_STDOUT # Imported from Heroku app
+        value: enabled
+      - key: RAILS_SERVE_STATIC_FILES # Imported from Heroku app
+        value: enabled
+      - key: DATABASE_URL # Render managed PostgreSQL database
+        fromDatabase:
+          name: postgresql-polished-30455
+          property: connectionString
+
+databases: # Render PostgreSQL managed database
+  - name: postgresql-polished-30455
+    ipAllowList: [] # only allow internal connections
